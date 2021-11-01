@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class Sorter {
     private Integer[] nums;
 
@@ -64,5 +66,55 @@ public class Sorter {
         quick_r(pivot++);
         return nums;
     }
+
+    public Integer[] mergeSort(Integer[] arr) {
+        mergeSort_r(arr, 0, (arr.length - 1));
+
+        return arr;
+    }
+
+    public void merge(Integer[] arr, int beg, int midpoint, int end) {
+        //for every integer in arr, if arr <= midpoint: add to first temp array
+        //if greater then add to second temporary array
+        Integer[] tempa = new Integer[(midpoint - beg) + 1];
+        Integer[] tempb = new Integer[end - midpoint];
+        int ainc = 0;
+        int binc = 0;
+
+        int len = ((end - beg) + 1);
+        for(int i = beg; i < len; i++) {
+           if(i <= midpoint) {
+                   tempa[ainc] = arr[i];
+                   ainc++;
+            } else {
+               tempb[binc] = arr[i];
+               binc++;
+            }
+        }
+
+        System.out.println("tempa: ");
+        for(Integer i : tempa) {
+            System.out.println(i+" ");
+        }
+
+    }
+
+    public void mergeSort_r(Integer[] arr, int beg, int end) {
+        //split given array until smallest array(s) is of size 1
+
+        //if length of array is 1 then it must already be split
+        int len = ((end - beg) + 1);
+        int midpoint = ((end + beg) / 2);
+
+        if(len == 1) return;
+        else {
+            mergeSort_r(arr, beg, midpoint);
+            mergeSort_r(arr, (midpoint + 1), end);
+            merge(arr, beg, midpoint, end);
+            }
+
+
+        }
+
 
 }
