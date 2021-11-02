@@ -10,7 +10,7 @@ public class Driver {
         }
         System.out.println();
 
-        for(Integer i : test.quick()) {
+        for(Integer i : test.mergeSort(nums)) {
             System.out.print(i+" ");
         }
         System.out.println();
