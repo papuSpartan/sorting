@@ -8,8 +8,8 @@ public class Sorter {
     }
 
     private boolean sorted() {
-        for(int i = 0; i < (nums.length-2); i++) {
-            if(nums[i] > nums[i+1]) return false;
+        for (int i = 0; i < (nums.length - 2); i++) {
+            if (nums[i] > nums[i + 1]) return false;
         }
 
         return true;
@@ -26,15 +26,15 @@ public class Sorter {
     public Integer[] bubble() {
         boolean swapped = false;
 
-            for (int i = 0; i < (nums.length - 1); i++) {
-                if (nums[i] > nums[i+1]) {
-                    swap(i);
-                    swapped = true;
-                }
-
+        for (int i = 0; i < (nums.length - 1); i++) {
+            if (nums[i] > nums[i + 1]) {
+                swap(i);
+                swapped = true;
             }
 
-            if(swapped) bubble();
+        }
+
+        if (swapped) bubble();
 
         return nums;
     }
@@ -50,71 +50,78 @@ public class Sorter {
         Integer less = null;
         boolean swapped = false;
 
-        System.out.println("using '"+nums[pivot]+"' as pivot");
+        System.out.println("using '" + nums[pivot] + "' as pivot");
 
         //upperbound/pointer for reverse accesses
         int upper = nums.length - 1;
-            for (int lower = 0; lower < nums.length - 1; lower++) {
-                if (greater != null && nums[lower] > nums[pivot]) greater = lower;
-                if (nums[upper] < nums[pivot]) {
-                    int temp = nums[upper];
-                    nums[upper] = nums[lower];
-                    nums[lower] = temp;
-                }
+        for (int lower = 0; lower < nums.length - 1; lower++) {
+            if (greater != null && nums[lower] > nums[pivot]) greater = lower;
+            if (nums[upper] < nums[pivot]) {
+                int temp = nums[upper];
+                nums[upper] = nums[lower];
+                nums[lower] = temp;
             }
+        }
 
         quick_r(pivot++);
         return nums;
     }
 
     public Integer[] mergeSort(Integer[] arr) {
-        mergeSort_r(arr, 0, (arr.length - 1));
-
+        mergeSort_r(arr);
         return arr;
     }
 
-    public void merge(Integer[] arr, int beg, int midpoint, int end) {
-        //for every integer in arr, if arr <= midpoint: add to first temp array
-        //if greater then add to second temporary array
-        Integer[] tempa = new Integer[(midpoint - beg) + 1];
-        Integer[] tempb = new Integer[end - midpoint];
-        int ainc = 0;
-        int binc = 0;
+    private void mergeSort_r(Integer[] arr) {
+        int midpoint = (arr.length / 2);
+        Integer[] left = new Integer[midpoint];
+        Integer[] right = new Integer[arr.length - midpoint];
 
-        int len = ((end - beg) + 1);
-        for(int i = beg; i < len; i++) {
-           if(i <= midpoint) {
-                   tempa[ainc] = arr[i];
-                   ainc++;
-            } else {
-               tempb[binc] = arr[i];
-               binc++;
-            }
+        if (arr.length < 2) {
+            return;
         }
 
-        System.out.println("tempa: ");
-        for(Integer i : tempa) {
-            System.out.println(i+" ");
+        //populate left and right subarrays
+        for (int i = 0; i < midpoint; i++) {
+            left[i] = arr[i];
         }
+        for (int i = midpoint; i < arr.length; i++) {
+            right[i - midpoint] = arr[i];
+        }
+
+        mergeSort(left);
+        mergeSort(right);
+        merge(arr, left, right);
 
     }
 
-    public void mergeSort_r(Integer[] arr, int beg, int end) {
-        //split given array until smallest array(s) is of size 1
+    private void merge(Integer[] arr, Integer[] left, Integer[] right) {
+        int i = 0, j = 0, k = 0;
 
-        //if length of array is 1 then it must already be split
-        int len = ((end - beg) + 1);
-        int midpoint = ((end + beg) / 2);
-
-        if(len == 1) return;
-        else {
-            mergeSort_r(arr, beg, midpoint);
-            mergeSort_r(arr, (midpoint + 1), end);
-            merge(arr, beg, midpoint, end);
+        while (i < left.length && j < right.length) {
+            if (left[i] <= right[j]) {
+                arr[k] = left[i];
+                i++;
+            } else {
+                arr[k] = right[j];
+                j++;
             }
-
-
+            k++;
         }
 
+        //get remaining elements if done with left subarray
+        while (i < left.length) {
+            arr[k] = left[i];
+            i++;
+            k++;
+        }
+        while (j < right.length) {
+            arr[k] = right[j];
+            j++;
+            k++;
+        }
+    }
+
+    public
 
 }
