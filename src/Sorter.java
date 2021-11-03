@@ -39,14 +39,13 @@ public class Sorter {
         return nums;
     }
 
+
     public Integer[] quick() {
         return quick_r(0);
     }
 
-
     //pivot param is an index not value
     public Integer[] quick_r(int pivot) {
-        Integer greater = null;
         Integer less = null;
         boolean swapped = false;
 
@@ -64,6 +63,41 @@ public class Sorter {
         }
 
         quick_r(pivot++);
+        return nums;
+    }
+
+    public Integer[] selection() {
+        //index of minimum element for this iteration
+        Integer min = 0;
+        Integer nextunsorted = 0;
+
+        for (Integer x : nums) {
+            //start 1 ahead of current perceived min and check for smaller element in array
+            min = nextunsorted;
+
+            for (int i = nextunsorted + 1; i < nums.length; i++) {
+                if (nums[i] < nums[min]) {
+                    min = i;
+                }
+            }
+                //swap element at next unsorted position (starting from the beginning) with the element we-
+                //-know to belong at that index (the min)
+                int temp = nums[nextunsorted];
+                nums[nextunsorted] = nums[min];
+                nums[min] = temp;
+                nextunsorted++;
+            }
+
+        return nums;
+    }
+
+    public Integer[] insertion() {
+        //assume first element to be sorted and start trying to find an element greater than it, starting at element 2
+
+        for(int i = 1; i < nums.length; i++) {
+
+        }
+
         return nums;
     }
 
