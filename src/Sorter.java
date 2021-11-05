@@ -91,15 +91,6 @@ public class Sorter {
         return nums;
     }
 
-    public Integer[] insertion() {
-        //assume first element to be sorted and start trying to find an element greater than it, starting at element 2
-
-        for(int i = 1; i < nums.length; i++) {
-
-        }
-
-        return nums;
-    }
 
     public Integer[] mergeSort(Integer[] arr) {
         mergeSort_r(arr);
@@ -156,6 +147,24 @@ public class Sorter {
         }
     }
 
-    public
+    public Integer[] insertion(Integer[] arr) {
+        //assume first element to be sorted and start trying to find an element greater than it, starting at element 2
 
+        for(int i = 1; i < arr.length; i++) {
+
+            boolean found = false;
+            int t = i - 1;
+            while(!found && t > -1) {
+                if(arr[i] < arr[t]) {
+                    found = true;
+                    //if spot(t) is found, then move everything to the right of t up(up until i) 1 and swap t with i
+
+                }
+                t--;
+            }
+
+        }
+
+        return nums;
+    }
 }
