@@ -54,7 +54,7 @@ public class Sorter {
         //upperbound/pointer for reverse accesses
         int upper = nums.length - 1;
         for (int lower = 0; lower < nums.length - 1; lower++) {
-            if (greater != null && nums[lower] > nums[pivot]) greater = lower;
+        //    if (greater != null && nums[lower] > nums[pivot]) greater = lower;
             if (nums[upper] < nums[pivot]) {
                 int temp = nums[upper];
                 nums[upper] = nums[lower];
@@ -80,13 +80,13 @@ public class Sorter {
                     min = i;
                 }
             }
-                //swap element at next unsorted position (starting from the beginning) with the element we-
-                //-know to belong at that index (the min)
-                int temp = nums[nextunsorted];
-                nums[nextunsorted] = nums[min];
-                nums[min] = temp;
-                nextunsorted++;
-            }
+            //swap element at next unsorted position (starting from the beginning) with the element we-
+            //-know to belong at that index (the min)
+            int temp = nums[nextunsorted];
+            nums[nextunsorted] = nums[min];
+            nums[min] = temp;
+            nextunsorted++;
+        }
 
         return nums;
     }
@@ -152,19 +152,30 @@ public class Sorter {
 
         for(int i = 1; i < arr.length; i++) {
 
-            boolean found = false;
-            int t = i - 1;
-            while(!found && t > -1) {
-                if(arr[i] < arr[t]) {
-                    found = true;
-                    //if spot(t) is found, then move everything to the right of t up(up until i) 1 and swap t with i
+            System.out.println("is "+arr[i]+" less than "+arr[i - 1]+"?");
+            if (arr[i] < arr[i - 1]) {
 
+                int shift = 0;
+                while (arr[i - shift] < arr[i - 1 - shift] && shift < i - 1) {
+                    System.out.println(arr[i - shift] + " is < " + arr[i - 1 - shift] + ": swapping");
+
+                    int temp = arr[i - shift];
+                    arr[i - shift] = arr[i - 1 - shift];
+                    arr[i - 1 - shift] = temp;
+                    shift++;
                 }
-                t--;
-            }
 
+                String result = "";
+                for (Integer x : arr) {
+                    result += x + " ";
+                }
+                System.out.println(result);
+
+            }
         }
 
-        return nums;
+        return arr;
     }
+
+
 }
