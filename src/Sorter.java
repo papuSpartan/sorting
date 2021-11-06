@@ -2,6 +2,7 @@ import java.util.Stack;
 
 public class Sorter {
     private Integer[] nums;
+    private boolean TESTING = true;
 
     Sorter(Integer[] nums) {
         this.nums = nums;
@@ -21,6 +22,12 @@ public class Sorter {
         int temp = nums[index];
         nums[index] = nums[index + 1];
         nums[index + 1] = temp;
+    }
+
+    private void swap(Integer[] arr, int a, int b) {
+        int temp = arr[a];
+        arr[a] = arr[b];
+        arr[b] = temp;
     }
 
     public Integer[] bubble() {
@@ -147,29 +154,23 @@ public class Sorter {
         }
     }
 
-    public Integer[] insertion(Integer[] arr) {
+    public Integer[] insertionOnR(Integer[] arr, int startI, int endI) {
         //assume first element to be sorted and start trying to find an element greater than it, starting at element 2
 
-        for(int i = 1; i < arr.length; i++) {
+        for(int i = startI + 1; i <= endI; i++) {
 
-            System.out.println("is "+arr[i]+" less than "+arr[i - 1]+"?");
+//            if(TESTING)System.out.println("is "+arr[i]+" less than "+arr[i - 1]+"?");
             if (arr[i] < arr[i - 1]) {
 
                 int shift = 0;
-                while (arr[i - shift] < arr[i - 1 - shift] && shift < i - 1) {
-                    System.out.println(arr[i - shift] + " is < " + arr[i - 1 - shift] + ": swapping");
+                //first operand of && ensures we do not cause an indexoutofbounds exception by going negative
+                //second operand of && ensures that we are not yet done moving the value to be inserted
+                while ((i - 1 - shift) >= 0 && arr[i - shift] < arr[i - 1 - shift]) {
+ //                   if(TESTING)System.out.println(arr[i - shift] + " is < " + arr[i - 1 - shift] + ": swapping");
 
-                    int temp = arr[i - shift];
-                    arr[i - shift] = arr[i - 1 - shift];
-                    arr[i - 1 - shift] = temp;
+                    swap(arr, (i - shift), (i - 1 - shift));
                     shift++;
                 }
-
-                String result = "";
-                for (Integer x : arr) {
-                    result += x + " ";
-                }
-                System.out.println(result);
 
             }
         }
@@ -177,5 +178,26 @@ public class Sorter {
         return arr;
     }
 
+    public Integer[] insertion(Integer[] arr) {
+        insertionOnR(arr, 0, arr.length - 1);
+        return arr;
+    }
 
+    public Integer[] shell(Integer[] arr) {
+
+        //once gap reaches 1 we are just doing an insertion sort so just call insertion()
+        for(int gap = arr.length/2; gap > 1; gap /= 2) {
+            System.out.println("gap: "+gap);
+            for (int i = 0; i < arr.length; i++) {
+                if((i + gap) < arr.length && arr[i] > arr[i + gap]) {
+                    System.out.println("swapping "+arr[i]+" with "+arr[i + gap]);
+                    swap(arr, (i), (i + gap));
+                }
+            }
+        }
+        //once we are at a gap of 1 do insertion sort (on "gap" of 1)
+        insertion(arr);
+
+        return arr;
+    }
 }
