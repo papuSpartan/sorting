@@ -200,4 +200,45 @@ public class Sorter {
 
         return arr;
     }
+
+    //treat array like a tree and heapify it recursively
+    private Integer[] heapify(Integer[] arr, int root, int bound) {
+        System.out.println("heabifyin");
+        Integer largest = root;
+        int left = 2 * root + 1;
+        int right = 2 * root + 1;
+
+        if(left < bound) {
+            if (arr[left] > arr[largest]) {
+                largest = left;
+            } else if (arr[right] > arr[largest]) {
+                largest = right;
+            }
+        }
+
+        if(largest != root) {
+            swap(arr, root, largest);
+            System.out.println("heabify recur...");
+            heapify(arr, largest, bound);
+        }
+
+        return arr;
+    }
+
+    //sort max heap returned from heapifying array
+    public Integer[] heap(Integer[] arr) {
+        //for every node (represented by the array) heapify it
+        for (int i = 0; i < arr.length; i++) {
+//            for (int i = .length / 2 - 1; i >= 0; i++) {
+            //create the max heap
+            heapify(arr, 2*i, arr.length);
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            swap(arr, 0, i);
+        //    heapify(arr, i, 0);
+        }
+
+        return arr;
+    }
 }
